@@ -73,3 +73,98 @@
         </ul>
     </li>
 {% endif %}
+
+<li class="nav-item">
+    <a href="{% url 'test_admin:create_examset' %}"
+            {% if '_examset' in request.path %}
+       class="nav-link active"
+            {% else %}
+       class="nav-link"
+            {% endif %}
+    >
+        <i class="fa fa-file-invoice" style="color:white"></i>
+        <p>
+            Create Exam Set
+        </p>
+    </a>
+</li>
+
+{% if 'questions' in request.path %}
+    <li class="nav-item has-treeview menu-open">
+        <a href="#" class="nav-link active">
+            <i class="fas fa-question-circle" style="color: white"></i>
+            <p>
+                Questions
+                <i class="right fas fa-angle-left"></i>
+            </p>
+        </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="{% url 'test_admin:create_question' %}"
+                        {% if 'create' in request.path or 'update' in request.path %}
+                   class="nav-link active"
+                        {% else %}
+                   class="nav-link"
+                        {% endif %}
+                >
+                    <i class="far fa-circle nav-icon" style="color: brown"></i>
+                    <p>Add Question</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'test_admin:question_bank' %}"
+                        {% if 'bank/' in request.path %}
+                   class="nav-link active"
+                        {% else %}
+                   class="nav-link"
+                        {% endif %}
+                >
+                    <i class="far fa-circle nav-icon" style="color: brown"></i>
+                    <p>Question Bank</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'test_admin:add_q_to_exam' %}"
+                        {% if 'add_q' in request.path %}
+                   class="nav-link active"
+                        {% else %}
+                   class="nav-link"
+                        {% endif %}
+                >
+                    <i class="far fa-circle nav-icon" style="color: brown;"></i>
+                    <p>Add Question To Exam</p>
+                </a>
+            </li>
+        </ul>
+    </li>
+{% else %}
+    <li class="nav-item has-treeview">
+        <a href="#" class="nav-link">
+            <i class="fas fa-question-circle" style="color: white"></i>
+            <p>
+                Questions
+                <i class="right fas fa-angle-left"></i>
+            </p>
+        </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="{% url 'test_admin:create_question' %}" class="nav-link">
+                    <i class="far fa-circle nav-icon" style="color: brown"></i>
+                    <p>Add Question</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'test_admin:question_bank' %}" class="nav-link">
+                    <i class="far fa-circle nav-icon" style="color: brown"></i>
+                    <p>Question Bank</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'test_admin:add_q_to_exam' %}" class="nav-link">
+                    <i class="far fa-circle nav-icon" style="color: brown;"></i>
+                    <p>Add Question To Exam</p>
+                </a>
+            </li>
+        </ul>
+    </li>
+{% endif %}

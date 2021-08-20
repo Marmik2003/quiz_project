@@ -1,0 +1,130 @@
+{% extends 'partials/test_admin/base.html' %}
+{% block title %}
+    Question Bank
+{% endblock title %}
+{% block container-fluid %}
+    <section id="color_list">
+        <div class="card shadow mb-4" style="border-top: 3px solid #41acf2;">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-fw fa-list"></i>&nbsp;Question Bank</h3>
+            </div>
+            <form id="qb_form" method="get" data-subject-tableupdate="{% url 'test_admin:tableupdate' %}"
+                  data-topic-url="{% url 'test_admin:load_types' %}"></form>
+            <div class="row px-4 py-2">
+
+                <div class="col-md-3 py-2">
+                    <h6>Subject</h6>
+                    <select name="subject" id="subject" class="form-control select_ans">
+                        <option selected="selected" value="">-- All --</option>
+                        {% for subject in subjects %}
+                            <option value="{{ subject.id }}">{{ subject.SUBJECT_NAME }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3 py-2">
+                    <h6>Topic</h6>
+                    <select name="topic" id="topic" class="form-control select_ans">
+                        <option selected="selected" value="0">-- All --</option>
+
+                    </select>
+                </div>
+                <div class="col-md-3 py-2">
+                    <h6>Sub Topic/Chapter</h6>
+                    <select name="sub_topic" id="sub_topic" class="form-control select_ans">
+                        <option selected="selected" value="0">-- All--</option>
+
+                    </select>
+                </div>
+
+                </form>
+            </div>
+            <div class="card-body">
+
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable">
+                        <thead>
+                        <tr>
+                            <th>Question</th>
+                            <th style="text-align: center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        {% for question in questions %}
+                            <tr>
+                                <td>
+                                    {{ question.question_text|safe }}
+                                </td>
+                                <td style="text-align: center">
+                                    <a id="btn_view_0" class="btn btn-secondary btn-sm"
+                                       href="{% url 'test_admin:update_question' question.pk %}"><i
+                                            class="fa fa-edit"></i>&nbsp;Edit</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript"
+            src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+    <script>
+        $("#subject").change(function () {
+            var url = $("#qb_form").attr("data-topic-url");
+            var TopicId = $(this).val();
+            console.log(TopicId);
+
+            $.ajax({
+                url: url,
+                data: {
+                    'subject': TopicId
+                },
+                success: function (data) {
+                    $("#sub_type").html(data)
+                }
+            });
+
+        });
+    </script>
+    <script>
+        $("#subject").change(function () {
+            var url = $("#qb_form").attr("data-subject-tableupdate");
+            var TopicId = $(this).val();
+            console.log(TopicId);
+
+            $.ajax({
+                url: url,
+                data: {
+                    'subject': TopicId
+                },
+                success: function (data) {
+                    $("#dataTable").html(data)
+                }
+            });
+
+        });
+    </script>
+    <script>
+        $("#sub_type").change(function () {
+            var url = $("#qb_form").attr("data-subject-tableupdate");
+            var TopicId = $(this).val();
+            console.log(TopicId);
+
+            $.ajax({
+                url: url,
+                data: {
+                    'sub_type': TopicId
+                },
+                success: function (data) {
+                    $("#dataTable").html(data)
+                }
+            });
+
+        });
+    </script>
+{% endblock container-fluid %}

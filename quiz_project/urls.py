@@ -24,6 +24,8 @@ urlpatterns = [
     path('', include('users.urls')),
     path('test_admin/', include('test_admin.urls')),
     # path('student/', include('student.urls')),
+
+    path(r'ckeditor/', include('ckeditor_uploader.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(
     settings.STATIC_URL,
     document_root=settings.STATIC_ROOT

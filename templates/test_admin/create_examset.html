@@ -1,0 +1,86 @@
+{% extends 'partials/test_admin/base.html' %}
+{% load crispy_forms_filters %}
+{% block title %}
+Set Exams
+{% endblock title %}
+{% block container-fluid %}
+<div class="row">
+    <div class="col-lg-12">
+        <!-- <h1 style="font-size:1.8rem;margin-bottom:10px;" class="page-header"><i
+                class="fas fa-fw fa-calendar-alt"></i>&nbsp;Schedule Exam</h1> -->
+    </div>
+</div>
+<section id="color_regestrition">
+    <div class="card">
+        <div class="shadow" style="border-top: 3px solid #41acf2;">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-fw fa-calendar-alt"></i>&nbsp;Set Exam</h3>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="row px-4 py-3">
+                    <div class="col-md-4 py-2">
+                        {{ form.exam_name|as_crispy_field }}
+                    </div>
+                    <div class="col-md-4 py-2">
+                        {{ form.subject|as_crispy_field }}
+                    </div>
+                    <div class="col-md-4 py-2">
+                        {{ form.duration|as_crispy_field }}
+                    </div>
+                    <div class="col-md-12 py-2 text-center mt-4">
+                        <input type="submit" name="btn_save" value="Save" id="btn_save"
+                            class="btn btn-success px-4 font-weight-bold" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<br />
+<section id="color_list">
+    <div class="card shadow mb-4" style="border-top: 3px solid #41acf2;">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Scheduled Exam List</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Exam Name</th>
+                            <th>Subject</th>
+                            <th>Duration</th>
+                            <th style="text-align: center; width: 20%;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for exam in examsets %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ exam.exam_name }}</td>
+                            <td>{{ exam.subject }}</td>
+                            <td>{{ exam.duration }}</td>
+                            <td style="text-align: center">
+                                <button id="btnedit" class="btn btn-secondary btn-sm"
+                                    onclick="window.location.href='{% url 'test_admin:update_examset' exam.id %}'"><i
+                                    class="fa fa-edit"></i> Edit</button>
+                                <button class="btn btn-danger btn-sm"
+                                        onclick="if(confirm('Are you sure you want to delete?')){
+                                            window.location.href='{% url 'test_admin:delete_examset' exam.id %}'
+                                        }">
+                                    <i class="fa fa-trash"></i> Delete
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock container-fluid %}

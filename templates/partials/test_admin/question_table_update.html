@@ -1,0 +1,41 @@
+<thead>
+<tr>
+    <th>Questions</th>
+    <th style="text-align: center">Action</th>
+</tr>
+</thead>
+<tbody>
+
+
+{% for question in questions %}
+    {% if question.id in exam_questions %}
+        <tr>
+            <td>
+                {{ question.question_text|safe }}
+            </td>
+            <td style="text-align: center">
+                <button type="button" id="btn_view_0" class="btn btn-danger btn-sm"
+                        onclick="remove_question({{ question.id }}, {{ scheduled_exam }}, this)">
+                    <font style="color: white;"><i class="fa fa-minus"></i>&nbsp;Remove</font>
+                </button>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td>
+                {{ question.question_text|safe }}
+            </td>
+            <td style="text-align: center">
+                <button type="button" id="btn_view_0" class="btn btn-success btn-sm"
+                        onclick="add_question({{ question.id }}, {{ scheduled_exam }}, this)">
+                    <font style="color: white;"><i class="fa fa-plus"></i>&nbsp;Add</font>
+                </button>
+            </td>
+        </tr>
+    {% endif %}
+
+{% endfor %}
+
+<script type="text/javascript" src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'>
+</script>
+</tbody>

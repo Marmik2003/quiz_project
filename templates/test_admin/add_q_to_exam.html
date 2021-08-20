@@ -1,0 +1,177 @@
+{% extends 'partials/test_admin/base.html' %}
+{% load crispy_forms_filters %}
+{% block title %}
+    Add Question to Exam
+{% endblock title %}
+{% block container-fluid %}
+<form action="" method="post" id="addquestiontoexamform" data-topic-url="{% url 'test_admin:load_types' %}"
+  data-subject-questionupdate="{% url 'test_admin:questionupdate' %}">
+  <section>
+    <div class="card">
+      <div class="shadow" style="border-top: 3px solid #41acf2;">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-fw fa-tasks"></i>&nbsp;Add Questions To Exam</h3>
+        </div>
+        <div class="row px-4 py-3">
+          <div class="col-md-3 py-2">
+            <h6>Exam</h6>
+            <select name="dr_scheduled_exam" id="dr_scheduled_exam" class="form-control">
+              <option selected="selected" value="">-- Select Scheduled Exam --</option>
+              {% for exam in exams %}
+              <option value="{{ exam.id }}">{{ exam.exam_name }}</option>
+              {% endfor %}
+            </select>
+            <span id="ContentPlaceHolder1_rf_dr_scheduled_exam" style="display:none;"></span>
+          </div>
+          <div class="col-md-3 py-2">
+            <h6>Subject</h6>
+            <select name="subject" id="subject" class="form-control">
+              <option selected="selected" value="">-- All --</option>
+              {% for subject in subjects %}
+              <option value="{{ subject.id }}">{{ subject.name }}</option>
+              {% endfor %}
+
+            </select>
+          </div>
+          <div class="col-md-3 py-2">
+            <h6>Subject Type</h6>
+            <select name="subject_type" id="subject_type" class="form-control">
+              <option selected="selected" value="0">-- All --</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br />
+  <section id="color_list">
+    <div class="card shadow mb-4" style="border-top: 3px solid #41acf2;">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Question List</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" width="100%" cellspacing="0" id="dataTable">
+            <thead>
+              <tr>
+                <th>Questions</th>
+                <th style="text-align: center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</form>
+<script type="text/javascript" src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'>
+</script>
+<script>
+
+  $("#dr_scheduled_exam").change(function () {
+    var url = $("#addquestiontoexamform").attr("data-subject-questionupdate");
+    var TopicId = $(this).val();
+
+    $.ajax({
+      url: url,
+      data: {
+        'dr_scheduled_exam': TopicId
+      },
+      success: function (data) {
+        $("#dataTable").html(data)
+      }
+    });
+
+  });
+  $("#subject").change(function () {
+    var url = $("#addquestiontoexamform").attr("data-topic-url");
+    var TopicId = $(this).val();
+
+    $.ajax({
+      url: url,
+      data: {
+        'subject': TopicId
+      },
+      success: function (data) {
+        $("#subject_type").html(data)
+      }
+    });
+
+  });
+</script>
+<script>
+  $("#subject").change(function () {
+    var url = $("#addquestiontoexamform").attr("data-subject-questionupdate");
+    var TopicId = $(this).val();
+    var ExamId = $("#dr_scheduled_exam").val();
+
+    $.ajax({
+      url: url,
+      data: {
+        'subject': TopicId,
+        'dr_scheduled_exam1': ExamId
+      },
+      success: function (data) {
+        $("#dataTable").html(data)
+      }
+    });
+
+  });
+</script>
+<script>
+  $("#subject_type").change(function () {
+    var url = $("#addquestiontoexamform").attr("data-subject-questionupdate");
+    var TopicId = $(this).val();
+    var ExamId = $("#dr_scheduled_exam").val();
+
+    $.ajax({
+      url: url,
+      data: {
+        'sub_type': TopicId,
+        'dr_scheduled_exam2': ExamId
+      },
+      success: function (data) {
+        $("#dataTable").html(data)
+      }
+    });
+
+  });
+</script>
+<script>
+  function add_question(question_id, exam_id, btn_obj){
+    const url = "{% url 'test_admin:add_question_to_exam_process' %}";
+    $.ajax({
+      url:url,
+      data:{
+        'question_id': question_id,
+        'exam_id': exam_id,
+      },
+      success: function(data){
+        $(btn_obj).html('<font style="color: white;"><i class="fa fa-minus"></i>&nbsp;Remove</font>');
+        $(btn_obj).removeClass('btn-success');
+        $(btn_obj).addClass('btn-danger');
+        $(btn_obj).attr('onclick', `remove_question(${question_id},${exam_id}, this)`);
+      }
+    })
+  }
+  function remove_question(question_id, exam_id, btn_obj){
+    const url = "{% url 'test_admin:remove_question_from_exam_process' %}";
+    $.ajax({
+      url:url,
+      data:{
+        'question_id': question_id,
+        'exam_id': exam_id,
+      },
+      success: function(data){
+        $(btn_obj).html('<font style="color: white;"><i class="fa fa-plus"></i>&nbsp;Add</font>');
+        $(btn_obj).removeClass('btn-danger');
+        $(btn_obj).addClass('btn-success');
+        $(btn_obj).attr('onclick', `add_question(${question_id},${exam_id}, this)`);
+      }
+    })
+  }
+</script>
+{% endblock container-fluid %}

@@ -1,0 +1,22 @@
+<thead>
+<tr>
+    <th>Question</th>
+    <th style="text-align: center">Action</th>
+</tr>
+</thead>
+<tbody>
+
+
+{% for question in questions %}
+    <tr>
+        <td>
+            {{ question.question_text|safe }}
+        </td>
+        <td style="text-align: center">
+            <a id="btn_view_0" class="btn btn-secondary btn-sm"
+               href="{% url 'test_admin:update_question' question.pk %}"><i class="fa fa-edit"></i>&nbsp;Edit</a>
+        </td>
+    </tr>
+{% endfor %}
+
+</tbody>
