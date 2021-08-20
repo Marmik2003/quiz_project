@@ -1,0 +1,66 @@
+{% extends 'partials/test_admin/base.html' %}
+{% load crispy_forms_filters %}
+{% block title %}
+    Add/Edit Subject
+{% endblock title %}
+{% block container-fluid %}
+    <section id="color_regestrition">
+        <div class="card">
+            <form method="post">
+                {% csrf_token %}
+                <div class="shadow" style="border-top: 3px solid #41acf2;">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-fw fa-tasks"></i>&nbsp;Add/Edit Subject</h3>
+                    </div>
+
+                    <div class="row px-4 py-3">
+                        <div class="col-md-6 py-2">
+                            {{ form.name|as_crispy_field }}
+                        </div>
+                        <div class="col-md-2 py-2 text-center mt-4">
+                            <input type="submit" value="Save"
+                                   class="btn btn-success px-4 font-weight-bold"/>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+    <br/>
+    <section id="color_list">
+        <div class="card shadow mb-4" style="border-top: 3px solid #41acf2;">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable">
+                        <thead>
+                        <tr>
+                            <th style="text-align: center">#</th>
+                            <th style="text-align: center;">Subjects</th>
+                            <th style="text-align: center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for sub in subjects %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td style="text-align: center;">{{ sub.name }}</td>
+                                <td style="text-align: center">
+                                    <button type="submit" name="btnedit" class="btn btn-secondary btn-sm"
+                                            onclick="window.location.href='{% url 'test_admin:update_subject' sub.pk %}'">
+                                        <i class="fa fa-edit"></i> Edit
+                                    </button>
+                                    <button type="submit" name="btndelete" class="btn btn-danger btn-sm"
+                                            onclick="window.location.href='{% url 'test_admin:delete_sub' sub.pk %}'">
+                                        <i class="fa fa-trash"></i> Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% include 'partials/alerts.html' %}
+{% endblock container-fluid %}

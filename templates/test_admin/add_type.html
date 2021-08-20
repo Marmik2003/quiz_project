@@ -1,0 +1,75 @@
+{% extends 'partials/test_admin/base.html' %}
+{% load crispy_forms_filters %}
+{% block title %}
+    Add Type
+{% endblock title %}
+{% block container-fluid %}
+    <section id="color_regestrition">
+        <div class="card">
+            <div class="shadow" style="border-top: 3px solid #41acf2;">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-fw fa-language"></i>&nbsp;Add/Edit Subject Type</h3>
+                </div>
+                <div style="margin-top: 0.5cm;"></div>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="row px-4 py-3">
+                        <div class="col-md-3 py-2">
+                            {{ form.subject|as_crispy_field }}
+                        </div>
+                        <div class="col-md-3 py-2">
+                            {{ form.type|as_crispy_field }}
+                        </div>
+                        <div class="col-md-3 py-2 text-center mt-3">
+                            <input type="submit"
+                                   id="btn_save" class="btn btn-success px-4 font-weight-bold"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <br/>
+    <section id="color_list">
+        <div class="card shadow mb-4" style="border-top: 3px solid #41acf2;">
+            <div class="card-body">
+
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Subject</th>
+                            <th>Topic</th>
+                            <th style="text-align: center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for type in types %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ type.subject }}</td>
+                                <td>{{ type.type }}</td>
+                                <td style="text-align: center">
+                                    <button type="submit" name="btnedit" class="btn btn-secondary btn-sm"
+                                            onclick="window.location.href='{% url 'test_admin:update_subtype' type.pk %}'">
+                                        <i class="fa fa-edit"></i>&nbsp;Edit
+                                    </button>
+                                    <button type="submit" name="btndelete" class="btn btn-danger btn-sm"
+                                            onclick="window.location.href='{% url 'test_admin:delete_subtype' type.pk %}'">
+                                        <i class="fa fa-trash"></i> Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+{% endblock container-fluid %}

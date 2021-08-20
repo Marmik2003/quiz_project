@@ -1,4 +1,3 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -20,57 +19,58 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600" rel="stylesheet" type="text/css">
     <link href="{% static 'plugins/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'custom_css/style.css' %}" rel="stylesheet" type="text/css">
+    <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'plugins/sweetalert2/sweetalert2.min.js' %}"></script>
 </head>
 <body class="body-bg-full profile-page">
-    <div id="wrapper" class="row wrapper">
-        <div class="col-10 offset-1 offset-sm-3 col-sm-6 col-md-4 offset-md-4 login-center">
-            <div class="navbar-header text-center my-3">
-                <a href="#">
-                    <img style="margin-bottom: 15px;" alt="" src="{% static 'images/user-logo.png' %}">
-                </a>
-            </div>
-        <form id="loginform" name="login" class="form-horizontal form-material" method="post" accept-charset="utf-8">
-                <div class="form-group">
-                    <input type="email" placeholder="Email Address" class="form-control form-control-line" name="uemail" id="uemail">
-                    <label for="uemail">Email</label>
-                </div>
-                <div class="form-group">
-                    <input type="password" placeholder="Password" class="form-control form-control-line" name="upwd">
-                    <label>Password</label>
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-block btn-lg btn-color-scheme ripple" type="submit">Login</button>
-                </div>
-                <div class="form-group no-gutters mb-0">
-                    <div class="col-md-12 d-flex">
-                        <div class="checkbox checkbox-info mr-auto">
-                        </div>
-                        <!--<a href="javascript:void(0)" id="to-recover" class="text-dark my-auto pb-2"><i class="fa fa-lock mr-1"></i>Forgot Password?</a>-->
-                    </div>
-                    <!-- /.col-md-12 -->
-                </div>
-                <!-- /.form-group -->
-        </form>            <!-- /.form-horizontal -->
-            <!-- /.btn-list -->
-            <footer class="col-sm-12 text-center">
-                <hr>
-                <p>Don't have an account? <a href="#" class="text-primary m-l-5"><b>Sign Up</b></a>
-                </p>
-            </footer>
+<div id="wrapper" class="row wrapper">
+    <div class="col-10 offset-1 offset-sm-3 col-sm-6 col-md-4 offset-md-4 login-center">
+        <div class="navbar-header text-center my-3">
+            <a href="#">
+                <img style="margin-bottom: 15px;" alt="" src="{% static 'images/user-logo.png' %}">
+            </a>
+            <h3>Login</h3>
         </div>
-        <!-- /.login-center -->
+        <form id="loginform" name="login" class="form-horizontal form-material" method="post" accept-charset="utf-8">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="email" placeholder="Email Address" class="form-control form-control-line" name="email"
+                       id="uemail">
+                <label for="uemail">Email</label>
+            </div>
+            <div class="form-group">
+                <input type="password" placeholder="Password" class="form-control form-control-line" name="pass">
+                <label>Password</label>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-block btn-lg btn-color-scheme ripple" type="submit">Login</button>
+            </div>
+            <div class="form-group no-gutters mb-0">
+                <div class="col-md-12 d-flex">
+                    <div class="checkbox checkbox-info mr-auto">
+                    </div>
+                    <!--<a href="javascript:void(0)" id="to-recover" class="text-dark my-auto pb-2"><i class="fa fa-lock mr-1"></i>Forgot Password?</a>-->
+                </div>
+                <!-- /.col-md-12 -->
+            </div>
+            <!-- /.form-group -->
+        </form>            <!-- /.form-horizontal -->
+        <!-- /.btn-list -->
+        <footer class="col-sm-12 text-center">
+            <hr>
+            <p>Don't have an account? <a href="{% url 'users:sign_up' %}" class="text-primary m-l-5"><b>Sign Up</b></a>
+            </p>
+        </footer>
     </div>
-    <!-- /.body-container -->
-    <!-- Scripts -->
-    <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"
-            integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/"
-            crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-    <script>
-        var params = getAllUrlParams();
-        if (params.hasOwnProperty('ref'))
-            localStorage.setItem("ref", params.ref);
-    </script>
+    <!-- /.login-center -->
+</div>
+<!-- /.body-container -->
+<!-- Scripts -->
+<script src="{% static 'js/tether.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"
+        integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/"
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/material-design.js' %}"></script>
+{% include 'partials/alerts.html' %}
 </body>
 </html>

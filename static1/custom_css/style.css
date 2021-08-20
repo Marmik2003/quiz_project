@@ -17678,14 +17678,14 @@ ul.wysihtml5-toolbar {
   .profile-page .login-center {
     padding: 1.42857em 4.28571em;
     background: white;
-    margin-top: 7.42857em;
+    margin-top: 1.42857em;
     margin-bottom: 1.42857em;
     border-radius: 10px;
     position: relative; }
     .profile-page .login-center .checkbox {
       padding-top: 0; }
   .profile-page .login-center-mini {
-    margin-top: 5.71429em; }
+    margin-top: 1.71429em; }
 
 .error-page h1 {
   font-size: 9.375rem;

@@ -1,0 +1,18 @@
+{% if messages %}
+    {% for message in messages %}
+        <script>
+            {% if message.tags == 'danger' %}
+                Swal.fire('Oops...','{{ message|safe }}','error');
+            {% endif %}
+            {% if message.tags == 'warning' %}
+                Swal.fire('Warning','{{ message|safe }}','warning');
+            {% endif %}
+            {% if message.tags == 'info' %}
+                Swal.fire('Information','{{ message|safe }}','info');
+            {% endif %}
+            {% if message.tags == 'success' %}
+                Swal.fire('Success','{{ message|safe }}','success');
+            {% endif %}
+        </script>
+    {% endfor %}
+{% endif %}

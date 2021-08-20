@@ -1,11 +1,13 @@
 from django import forms
-from django.contrib.auth.models import Group
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 from .models import User
 
 
 class RegistrationForm(forms.ModelForm):
+    email = forms.EmailField()
+    gender = forms.ChoiceField(label='', help_text='', required=True,
+                               choices=(('', 'Select Gender'), ('male', 'Male'), ('female', 'Female'), ('other', 'Other')))
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
 
     class Meta:

@@ -61,7 +61,7 @@
             <button type="button" tabindex="0" class="dropdown-item">{{ user.username }}</button>
             <div tabindex="-1" class="dropdown-divider"></div>
 
-            <button type="button" tabindex="0" class="dropdown-item" onclick="document.location='{% url 'user_module:logout' %}';">Log Out</button>
+            <button type="button" tabindex="0" class="dropdown-item" onclick="document.location='{% url 'users:logout' %}';">Log Out</button>
         </div>
       </li>
     </ul>
@@ -71,8 +71,12 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #415870;">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
-		<img src="{% static 'images/logo.png' %}" width="150px" height="60px" alt="logo" style="opacity: .9; margin-left: 30px; margin-right: 50px;">
+    <a href="#" class="brand-link" style="text-align: center; padding-top: 1.5rem">
+        <img src="{% static 'images/logo.png' %}" alt="Logo small" height="50"
+             class="brand-image-xl logo-xs">
+        <img src="{% static 'images/logo.png' %}" alt="CA Logo"
+             width="318" height="80" class="brand-image-xl logo-xl"
+             style="opacity: .8; text-align:center;">
       <span class="brand-text font-weight-light"></span>
     </a>
     <!-- Sidebar -->
@@ -80,10 +84,8 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-               {% block sidebar %}
-
-               {% endblock sidebar %}
-          </ul>
+            {% include 'partials/test_admin/sidebar.html' %}
+        </ul>
       </nav>
       <!-- /.sidebar-menu -->
     </div>
