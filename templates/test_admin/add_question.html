@@ -11,7 +11,7 @@
                 <div class="card-header">
                     <h3 class="card-title"><i class="fas fa-fw fa-plus-circle"></i>&nbsp;Add Exam Question</h3>
                 </div>
-                <form action="" method="post" id="questionform"
+                <form action="" method="post" id="questionform" enctype="multipart/form-data"
                       data-subjecttype-url="{% url 'test_admin:load_types' %}">
                     {% csrf_token %}
                     <div class="row py-3 px-3">
@@ -29,6 +29,9 @@
                         </div>
                         <div class="col-md-3 py-2">
                             {{ form.points|as_crispy_field }}
+                        </div>
+                        <div class="col-md-3 py-2">
+                            {{ form.sq|as_crispy_field }}
                         </div>
                         <div class="col-md-12 py-2">
                             {{ form.question_text }}
@@ -71,67 +74,65 @@
                         </div>
                         {{ form.media }}
                         <div id="ans_1" class="col-md-9 py-2">
-                            <textarea name="answer1" id="id_answer1"></textarea>
+                            {{ form.answer1|as_crispy_field }}
                         </div>
                         <div id="sr1" class="col-md-3 py-2">
                             {{ form.sr1|as_crispy_field }}
                         </div>
                         <div id="ans_2" class="col-md-9 py-2">
-                            <textarea name="answer2" id="id_answer2"></textarea>
+                            {{ form.answer2|as_crispy_field }}
                         </div>
                         <div id="sr2" class="col-md-3 py-2">
                             {{ form.sr2|as_crispy_field }}
                         </div>
                         <div id="ans_3" class="col-md-9 py-2">
-                            <textarea name="answer3" id="id_answer3"></textarea>
+                            {{ form.answer3|as_crispy_field }}
                         </div>
                         <div id="sr3" class="col-md-3 py-2">
                             {{ form.sr3|as_crispy_field }}
                         </div>
                         <div id="ans_4" class="col-md-9 py-2">
-                            <textarea name="answer4" id="id_answer4"></textarea>
+                            {{ form.answer4|as_crispy_field }}
                         </div>
                         <div id="sr4" class="col-md-3 py-2">
                             {{ form.sr4|as_crispy_field }}
                         </div>
                         <div id="ans_5" class="col-md-9 py-2">
-                            <textarea name="answer5" id="id_answer5"></textarea>
+                            {{ form.answer5|as_crispy_field }}
                         </div>
                         <div id="sr5" class="col-md-3 py-2">
                             {{ form.sr5|as_crispy_field }}
                         </div>
                         <div id="ans_6" class="col-md-9 py-2">
-                            <textarea name="answer6" id="id_answer6"></textarea>
+                            {{ form.answer6|as_crispy_field }}
                         </div>
                         <div id="sr6" class="col-md-3 py-2">
                             {{ form.sr6|as_crispy_field }}
                         </div>
                         <div id="ans_7" class="col-md-9 py-2">
-                            <textarea name="answer7" id="id_answer7"></textarea>
+                            {{ form.answer7|as_crispy_field }}
                         </div>
                         <div id="sr7" class="col-md-3 py-2">
                             {{ form.sr7|as_crispy_field }}
                         </div>
                         <div id="ans_8" class="col-md-9 py-2">
-                            <textarea name="answer8" id="id_answer8"></textarea>
+                            {{ form.answer8|as_crispy_field }}
                         </div>
                         <div id="sr8" class="col-md-3 py-2">
                             {{ form.sr8|as_crispy_field }}
                         </div>
                         <div id="ans_9" class="col-md-9 py-2">
-                            <textarea name="answer9" id="id_answer9"></textarea>
+                            {{ form.answer9|as_crispy_field }}
                         </div>
                         <div id="sr9" class="col-md-3 py-2">
                             {{ form.sr9|as_crispy_field }}
                         </div>
                         <div id="ans_10" class="col-md-9 py-2">
-                            <textarea name="answer10" id="id_answer10"></textarea>
+                            {{ form.answer10|as_crispy_field }}
                         </div>
                         <div id="sr10" class="col-md-3 py-2">
                             {{ form.sr10|as_crispy_field }}
                         </div>
-
-
                         <div class="col-md-12 py-2">
                             <div id="uppnl">
 
@@ -157,77 +158,7 @@
     </section>
     <script type="text/javascript"
             src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
-    <script type="text/javascript" src="https://cdn.ckeditor.com/4.13.1/standard-all/ckeditor.js"></script>
-    <script type="text/javascript">
-        (function () {
-            var mathElements = [
-                'math',
-                'maction',
-                'maligngroup',
-                'malignmark',
-                'menclose',
-                'merror',
-                'mfenced',
-                'mfrac',
-                'mglyph',
-                'mi',
-                'mlabeledtr',
-                'mlongdiv',
-                'mmultiscripts',
-                'mn',
-                'mo',
-                'mover',
-                'mpadded',
-                'mphantom',
-                'mroot',
-                'mrow',
-                'ms',
-                'mscarries',
-                'mscarry',
-                'msgroup',
-                'msline',
-                'mspace',
-                'msqrt',
-                'msrow',
-                'mstack',
-                'mstyle',
-                'msub',
-                'msup',
-                'msubsup',
-                'mtable',
-                'mtd',
-                'mtext',
-                'mtr',
-                'munder',
-                'munderover',
-                'semantics',
-                'annotation',
-                'annotation-xml'
-            ];
 
-            CKEDITOR.plugins.addExternal('ckeditor_wiris', 'https://www.wiris.net/demo/plugins/ckeditor/', 'plugin.js');
-
-            CKEDITOR.replace('question_text', {
-                //htmlEncodeOutput: true,
-                extraPlugins: 'ckeditor_wiris',
-                // For now, MathType is incompatible with CKEditor file upload plugins.
-                height: 150,
-                // Update the ACF configuration with MathML syntax.
-                extraAllowedContent: mathElements.join(' ') + '(*)[*]{*};img[data-mathml,data-custom-editor,role](Wirisformula)'
-            });
-            for (var i = 1; i <= 10; i++) {
-                CKEDITOR.replace('answer' + i, {
-                    //htmlEncodeOutput: true,
-                    extraPlugins: 'ckeditor_wiris',
-                    // For now, MathType is incompatible with CKEditor file upload plugins.
-                    removePlugins: 'uploadwidget,uploadfile,filetools',
-                    height: 150,
-                    // Update the ACF configuration with MathML syntax.
-                    extraAllowedContent: mathElements.join(' ') + '(*)[*]{*};img[data-mathml,data-custom-editor,role](Wirisformula)'
-                });
-            }
-        }());
-    </script>
     <script>
         $("#id_subject").change(function () {
             var url = $("#questionform").attr("data-subjecttype-url");

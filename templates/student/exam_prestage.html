@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <link href="{% static 'custom_css/monoicon.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'plugins/sweetalert2/sweetalert2.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'custom_css/perfect-scrollbar.css' %}" rel="stylesheet" type="text/css">
+    <title>Exam Prerequisite</title>
+</head>
+<body>
+<div class="container-fluid">
+    <h3>Capture Image</h3>
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-4">
+                <button id="start-camera" class="btn btn-secondary">Start Camera</button>
+                <video id="video" width="320" height="240" autoplay></video>
+                <button id="click-photo" class="btn btn-success">Click Photo</button>
+                <canvas id="canvas" width="320" height="240"></canvas>
+            </div>
+        </div>
+    </form>
+    <script>
+        let camera_button = document.querySelector("#start-camera");
+        let video = document.querySelector("#video");
+        let click_button = document.querySelector("#click-photo");
+        let canvas = document.querySelector("#canvas");
+
+        camera_button.addEventListener('click', async function() {
+            let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+            video.srcObject = stream;
+        });
+
+        click_button.addEventListener('click', function() {
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            let image_data_url = canvas.toDataURL('image/jpeg');
+
+            // data url of the image
+            let file = null;
+            let blob = document.querySelector("#canvas").toBlob(function(blob) {
+                            file = new File([blob], 'test.jpg', { type: 'image/jpeg' });
+                        }, 'image/jpeg');
+            let data = new FormData();
+            data.append('file', file);
+            data.append('exam_id', '{{ exam.id }}')
+            let request = new XMLHttpRequest();
+            request.open('POST', '{% url 'student:capture_upload' %}');
+
+            // upload progress event
+            request.upload.addEventListener('progress', function(e) {
+                let percent_complete = (e.loaded / e.total)*100;
+
+                // percentage of upload completed
+                console.log(percent_complete);
+            });
+
+            // AJAX request finished event
+            request.addEventListener('load', function(e) {
+                // HTTP status message
+                console.log(request.status);
+
+                // request.response will hold the response from the server
+                console.log(request.response);
+            });
+
+            // send POST request to server side script
+            request.send(data);
+        });
+    </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{% extends 'partials/student/base.html' %}
+{% block main %}
+<section id="main">
+    <h2>Upcoming Exams</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Exam</th>
+                <th>Subject (type)</th>
+                <th>Duration</th>
+                <th>Questions</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for exam in exams %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ exam.exam_name }}</td>
+                    <td>{{ exam.subject }}</td>
+                    <td>{{ exam.duration }}</td>
+                    <td>{{ exam.examquestion_set.count }}</td>
+                    <td>
+                        <a role="button" href="#" class="btn btn-primary">Attempt</a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

@@ -79,6 +79,48 @@ class ExamSet(models.Model):
         return self.exam_name
 
 
+class ExamFaces(models.Model):
+    exam = models.ForeignKey(ExamSet, on_delete=models.CASCADE)
+    face = models.ImageField(upload_to='student_faces/')
+
+
 class ExamQuestion(models.Model):
     exam = models.ForeignKey("ExamSet", on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+
+class QuestionResponse(models.Model):
+    student = models.ForeignKey('users.User', on_delete=models.CASCADE)
+    exam = models.ForeignKey(ExamSet, on_delete=models.CASCADE)
+    response = models.CharField(max_length=10)
+    answered_at = models.DateTimeField(auto_now_add=True)
+
+
+class ExamResult(models.Model):
+    student = models.ForeignKey('users.User', on_delete=models.CASCADE)
+    exam = models.ForeignKey(ExamSet, on_delete=models.CASCADE)
+    finished_at = models.DateTimeField(auto_now_add=True)
+    time_spent = models.PositiveIntegerField(default=0)
+    score = models.FloatField(default=0)
+
+
+class QuestionForum(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    forum_text = RichTextUploadingField()
+    thread_by = models.ForeignKey('users.User', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.forum_text
+
+
+class ForumReply(models.Model):
+    forum = models.ForeignKey(QuestionForum, on_delete=models.CASCADE)
+    forum_text = RichTextUploadingField()
+    thread_by = models.ForeignKey('users.User', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.forum_text

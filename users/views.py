@@ -24,7 +24,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password')
             user = authenticate(username=email, password=raw_password)
             login(request, user)
-            return redirect('')
+            return redirect('student:index')
 
     else:
         form = RegistrationForm()
@@ -44,7 +44,7 @@ def login_view(request):
                 if user.is_superuser:
                     return redirect('test_admin:dashboard')
                 else:
-                    return redirect('users:login')
+                    return redirect('student:index')
             else:
                 messages.error(request, 'Invalid credentials!')
                 return redirect('users:login')
