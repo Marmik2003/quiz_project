@@ -32,7 +32,7 @@ class QuestionForm(forms.ModelForm):
             'question_text', 'answer1', 'answer2', 'answer3', 'answer4', 'answer5', 'answer6', 'answer7', 'answer8',
             'answer9', 'answer10', 'subject', 'subject_type', 'points', 'sq',
             'pr1', 'pr2', 'pr3', 'pr4', 'pr5', 'pr6', 'pr7', 'pr8', 'pr9', 'pr10', 'pr11', 'pr12',
-            'sr1', 'sr2', 'sr3', 'sr4', 'sr5', 'sr6', 'sr7', 'sr8', 'sr9', 'sr10', 'correct_ans',
+            'sr1', 'sr2', 'sr3', 'sr4', 'sr5', 'sr6', 'sr7', 'sr8', 'sr9', 'sr10', 'correct_ans', 'solution_details'
         )
         labels = {'question_text': 'Question', 'answer1': 'answer 1', 'answer2': 'answer 2', 'answer3': 'answer 3',
                   'answer4': 'answer 4', 'answer5': 'answer 5', 'answer6': 'answer 6', 'answer7': 'answer 7',

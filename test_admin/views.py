@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, UpdateView
 
 from test_admin.forms import SubjectForm, SubjectTypeForm, ExamSetForm, QuestionForm
-from test_admin.models import Subject, SubjectType, ExamSet, Question, ExamQuestion
+from test_admin.models import Subject, SubjectType, ExamSet, Question, ExamQuestion, ExamResult
 
 
 class DashboardView(UserPassesTestMixin, TemplateView):
@@ -316,3 +316,28 @@ def questionupdate(request):
         context = {'questions': questions, 'exam_questions': exam_questions,
                    'scheduled_exam': scheduled_exam}
         return render(request, 'partials/test_admin/question_table_update.html', context=context)
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def exam_result(request):
+    exams = ExamSet.objects.all()
+    context = {'exams': exams}
+    return render(request, 'test_admin/exam_result.html', context=context)
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def examres_query(request):
+    exam_id = request.GET.get('examid')
+    exam_res = ExamResult.objects.filter(exam_id=exam_id)
+    questions = ExamQuestion.objects.filter(exam_id=exam_id)
+    faces = ExamSet.objects.get(id=exam_id).examfaces_set.all()
+    quest_count = questions.count()
+    total_marks = 0
+    for q in questions:
+        total_marks += int(q.question.points)
+    context = {'students': exam_res,
+               'quest_count': quest_count, 'total_marks': total_marks,
+               'faces': faces}
+    return render(request, 'partials/test_admin/examres_query.html', context=context)

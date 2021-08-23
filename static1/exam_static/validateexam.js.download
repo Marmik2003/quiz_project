@@ -1,0 +1,45 @@
+var flag = false;
+$(document).ready(function() {
+    $('.select1, .select2').click(function() {
+        if(!flag) {
+            compareanswer(this);
+        }
+    });
+});
+
+compareanswer = function(el) {
+    var selectanswer = $(el).data('value');
+    $.ajax({
+        type: 'POST',
+        dataType: 'text',
+        data: {
+            selectAnswer: selectanswer,
+            problemId: $('#problemId').val()
+        },
+        url: $url + 'student/checkanswer',
+        success: function(data)
+        {
+            var json = JSON.parse(data);
+            if(json.status) {
+                flag = true;
+                $('.pr-ref').empty();
+                
+                $('span[value="' + selectanswer + '"]').after($('<i>')
+                                                            .addClass('fa fa-check-square correct-icon'));
+                $('span[value="' + selectanswer + '"]').remove();
+                $('.form-group span').after($('<i>').addClass('fa fa-window-close wrong-icon'));
+                $('.form-group span').remove();
+                $('.answer-text[data-value="' + selectanswer + '"]').addClass('correct-label');
+                $('.answer-text').css({"color": "#ed0b4c"});
+                $('.after').after(html);
+            }
+            else {
+                flag = true;
+                $('span[value="' + selectanswer + '"]').after($('<i>')
+                                                            .addClass('fa fa-window-close wrong-icon'));
+                $('span[value="' + selectanswer + '"]').remove();
+                $('.answer-text[data-value="' + selectanswer + '"]').css({"color": "#ed0b4c"});
+            }
+        }
+    })    
+}

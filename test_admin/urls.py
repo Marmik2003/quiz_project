@@ -22,6 +22,8 @@ urlpatterns = [
     path('questions/bank/', views.q_bank, name='question_bank'),
     path('questions/add_q', views.add_q_to_exam, name='add_q_to_exam'),
 
+    path('exam_result/', views.exam_result, name='exam_result'),
+
     # AJAX
     path('load_topics/', views.load_topics, name='load_types'),
     path('table_update/', views.tableupdate, name='tableupdate'),
@@ -30,4 +32,6 @@ urlpatterns = [
     path('questions/add_q_to_exam/', views.add_question_to_exam_process, name='add_question_to_exam_process'),
     path('questions/add_q_to_exam/remove/',
          views.remove_question_from_exam_process, name='remove_question_from_exam_process'),
+
+    path('get_result/', views.examres_query, name='examres_query'),
 ]

@@ -1,0 +1,67 @@
+{% extends 'partials/test_admin/base.html' %}
+{% load static %}
+{% block title %}
+  Exam Result
+{% endblock title %}
+{% block container-fluid %}
+<section id="color_regestrition">
+    <div class="card shadow" style="border-top: 3px solid #41acf2;">
+        <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-fw fa-tasks"></i>&nbsp;Exam Result</h3>
+        </div>
+        <div class="">
+            <div class="row px-4 py-3">
+                <div class="col-md-2 py-2">
+                    <h6 class="mt-2">Exam set</h6>
+                </div>
+                <div class="col-md-4 py-2">
+                    <form action="" id="examres" data-examres-url="{% url 'test_admin:examres_query' %}">
+                        <select name="dr_schedule_exam" id="schedule_exam" class="form-control">
+                            <option selected="selected" value="" disabled>-- Select Exam Name --</option>
+                            {% for exam in exams %}
+                            <option value="{{ exam.id }}">{{ exam.exam_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">No</th>
+                            <th>Name</th>
+                            <th>Face(s)</th>
+                            <th style="width: 15%;">Total Questions</th>
+                            <th style="">Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="examquerysuccess">
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</section>
+<script>
+    $("#schedule_exam").change(function () {
+      var url = $("#examres").attr("data-examres-url");
+      var examId = $(this).val();
+
+      $.ajax({
+        url: url,
+        data: {
+          'examid': examId
+        },
+        success: function (data) {
+          $("#examquerysuccess").html(data);
+        }
+      });
+
+    });
+  </script>
+{% endblock container-fluid %}

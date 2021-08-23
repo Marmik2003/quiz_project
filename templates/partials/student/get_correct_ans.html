@@ -1,0 +1,132 @@
+<div class="page-separator">
+    <div class="page-separator__text">Your Answer</div>
+</div>
+
+<div class="form-group">
+    <div id="each-answer">
+        <div>
+            <i class="fa {% if question.correct_ans == 'answer1' %}fa-check-square correct{% else %}fa-window-close wrong{% endif %}-icon"></i>
+            <label class="answer-text {% if question.correct_ans == 'answer1' %}correct-label{% endif %}" style="color: rgb(237, 11, 76);">
+                {{ question.answer1|safe }}
+            </label>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div id="each-answer">
+        <div>
+            <i class="fa {% if question.correct_ans == 'answer2' %}correct{% else %}wrong{% endif %}-icon"></i>
+            <label class="answer-text {% if question.correct_ans == 'answer2' %}correct-label{% endif %}" style="color: rgb(237, 11, 76);">{{ question.answer2|safe }}</label>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div id="each-answer">
+        <div>
+            <i class="fa {% if question.correct_ans == 'answer3' %}fa-check-square correct{% else %}fa-window-close wrong{% endif %}-icon"></i>
+            <label class="answer-text {% if question.correct_ans == 'answer3' %}correct-label{% endif %}" style="color: rgb(237, 11, 76);">{{ question.answer3|safe }}</label>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div id="each-answer">
+        <div>
+            <i class="fa {% if question.correct_ans == 'answer4' %}fa-check-square correct{% else %}fa-window-close wrong{% endif %}-icon"></i>
+            <label class="answer-text {% if question.correct_ans == 'answer4' %}correct-label{% endif %}" style="color: rgb(237, 11, 76);">{{ question.answer4|safe }}</label>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div id="each-answer">
+        <div>
+            <i class="fa {% if question.correct_ans == 'answer5' %}fa-check-square correct{% else %}fa-window-close wrong{% endif %}-icon"></i>
+            <label class="answer-text {% if question.correct_ans == 'answer5' %}correct-label{% endif %}" style="color: rgb(237, 11, 76);">{{ question.answer5|safe }}</label>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div id="each-answer">
+        <div>
+            <i class="fa {% if question.correct_ans == 'answer6' %}fa-check-square correct{% else %}fa-window-close wrong{% endif %}-icon"></i>
+            <label class="answer-text {% if question.correct_ans == 'answer6' %}correct-label{% endif %}" style="color: rgb(237, 11, 76);">{{ question.answer6|safe }}</label>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div id="each-answer">
+        <div>
+            <i class="fa {% if question.correct_ans == 'answer7' %}fa-check-square correct{% else %}fa-window-close wrong{% endif %}-icon"></i>
+            <label class="answer-text {% if question.correct_ans == 'answer7' %}correct-label{% endif %}" style="color: rgb(237, 11, 76);">{{ question.answer7|safe }}
+            </label>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div id="each-answer">
+        <div>
+            <i class="fa {% if question.correct_ans == 'answer8' %}fa-check-square correct{% else %}fa-window-close wrong{% endif %}-icon"></i>
+            <label class="answer-text {% if question.correct_ans == 'answer8' %}correct-label{% endif %}" style="color: rgb(237, 11, 76);">{{ question.answer8|safe }}</label>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div id="each-answer">
+        <div>
+            <i class="fa {% if question.correct_ans == 'answer9' %}fa-check-square correct{% else %}fa-window-close wrong{% endif %}-icon"></i>
+            <label class="answer-text {% if question.correct_ans == 'answer9' %}correct-label{% endif %}" style="color: rgb(237, 11, 76);">{{ question.answer9|safe }}</label>
+        </div>
+    </div>
+</div>
+<div class="form-group after">
+    <div id="each-answer">
+        <div>
+            <i class="fa {% if question.correct_ans == 'answer10' %}fa-check-square correct{% else %}fa-window-close wrong{% endif %}-icon"></i>
+            <label class="answer-text {% if question.correct_ans == 'answer10' %}correct-label{% endif %}" style="color: rgb(237, 11, 76);">{{ question.answer10|safe }}</label>
+        </div>
+    </div>
+</div>
+<div class="sr-ref">
+    <div class="form-group">
+        <div class="page-separator">
+            <div class="page-separator__text">SOLUTION DETAILS</div>
+        </div>
+        <p class="solution">{{ question.solution_details|safe }}</p></div>
+    <div class="discuss-sr-group">
+        <div class="sr-group"><a class="fancybox" rel="gallery1"
+                                 href="/media/{{ question.sr1 }}"
+                                 title="Solution Picture Reference 1">
+            <div src="/media/{{ question.sr1 }}" class="sr-images">SR1</div>
+        </a><a class="fancybox" rel="gallery1" href="/media/{{ question.sr2 }}"
+               title="Solution Picture Reference 2">
+            <div src="/media/{{ question.sr2 }}" class="sr-images">SR2</div>
+        </a><a class="fancybox" rel="gallery1" href="/media/{{ question.sr3 }}"
+               title="Solution Picture Reference 3">
+            <div src="/media/{{ question.sr3 }}" class="sr-images">SR3</div>
+        </a><a class="fancybox" rel="gallery1" href="/media/{{ question.sr4 }}"
+               title="Solution Picture Reference 4">
+            <div src="/media/{{ question.sr4 }}" class="sr-images">SR4</div>
+        </a><a class="fancybox" rel="gallery1" href="/media/{{ question.sr5 }}"
+               title="Solution Picture Reference 5">
+            <div src="/media/{{ question.sr5 }}" class="sr-images">SR5</div>
+        </a><a class="fancybox" rel="gallery1" href="/media/{{ question.sr6 }}"
+               title="Solution Picture Reference 6">
+            <div src="/media/{{ question.sr6 }}" class="sr-images">SR6</div>
+        </a>
+        <a class="fancybox" rel="gallery1" href="/media/{{ question.sr7 }}"
+               title="Solution Picture Reference 7">
+            <div src="/media/{{ question.sr7 }}" class="sr-images">SR7</div>
+        </a><a class="fancybox" rel="gallery1" href="/media/{{ question.sr8 }}"
+               title="Solution Picture Reference 8">
+            <div src="/media/{{ question.sr8 }}" class="sr-images">SR8</div>
+        </a><a class="fancybox" rel="gallery1" href="/media/{{ question.sr9 }}"
+               title="Solution Picture Reference 9">
+            <div src="/media/{{ question.sr9 }}" class="sr-images">SR9</div>
+        </a><a class="fancybox" rel="gallery1" href="/media/{{ question.sr10 }}"
+               title="Solution Picture Reference 10">
+            <div src="/media/{{ question.sr10 }}" class="sr-images">SR10</div>
+        </a>
+        </div>
+{#        <div class="discuss-div"><a class="discuss" href="#"><i#}
+{#                class="material-icons list-icon">group</i> &nbsp;Discuss in Forum</a></div>#}
+    </div>
+</div>

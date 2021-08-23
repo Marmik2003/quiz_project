@@ -82,6 +82,7 @@ class ExamSet(models.Model):
 class ExamFaces(models.Model):
     exam = models.ForeignKey(ExamSet, on_delete=models.CASCADE)
     face = models.ImageField(upload_to='student_faces/')
+    student = models.ForeignKey('users.User', on_delete=models.CASCADE)
 
 
 class ExamQuestion(models.Model):
@@ -92,6 +93,7 @@ class ExamQuestion(models.Model):
 class QuestionResponse(models.Model):
     student = models.ForeignKey('users.User', on_delete=models.CASCADE)
     exam = models.ForeignKey(ExamSet, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     response = models.CharField(max_length=10)
     answered_at = models.DateTimeField(auto_now_add=True)
 

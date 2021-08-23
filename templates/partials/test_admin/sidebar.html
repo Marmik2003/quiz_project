@@ -168,3 +168,18 @@
         </ul>
     </li>
 {% endif %}
+
+<li class="nav-item">
+    <a href="{% url 'test_admin:exam_result' %}"
+            {% if 'exam_result' in request.path %}
+       class="nav-link active"
+            {% else %}
+       class="nav-link"
+            {% endif %}
+    >
+        <i class="fa fa-chart-bar" style="color:white"></i>
+        <p>
+            Exam Result
+        </p>
+    </a>
+</li>

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,64 +13,133 @@
 </head>
 <body>
 <div class="container-fluid">
+    <h2>{{ exam.exam_name }}</h2>
     <h3>Capture Image</h3>
     <form method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-md-4">
-                <button id="start-camera" class="btn btn-secondary">Start Camera</button>
-                <video id="video" width="320" height="240" autoplay></video>
-                <button id="click-photo" class="btn btn-success">Click Photo</button>
-                <canvas id="canvas" width="320" height="240"></canvas>
+                <table>
+                    <tr>
+                        <td>
+                            <button type="button" id="start-camera" class="btn btn-secondary">Start Camera</button>
+                        </td>
+                        <td>
+                            <button type="button" id="click-photo" class="btn btn-success">Click Photo</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <video id="stream" width="320" height="240" autoplay></video>
+                        </td>
+                        <td>
+                            <canvas id="capture" width="320" height="240"></canvas>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </form>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'plugins/sweetalert2/sweetalert2.min.js' %}"></script>
     <script>
-        let camera_button = document.querySelector("#start-camera");
-        let video = document.querySelector("#video");
-        let click_button = document.querySelector("#click-photo");
-        let canvas = document.querySelector("#canvas");
+        var btnStart = document.getElementById("start-camera");
+        var btnCapture = document.getElementById("click-photo");
 
-        camera_button.addEventListener('click', async function() {
-            let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-            video.srcObject = stream;
-        });
+        // The stream & capture
+        var stream = document.getElementById("stream");
+        var capture = document.getElementById("capture");
 
-        click_button.addEventListener('click', function() {
-            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-            let image_data_url = canvas.toDataURL('image/jpeg');
+        // The video stream
+        var cameraStream = null;
 
-            // data url of the image
-            let file = null;
-            let blob = document.querySelector("#canvas").toBlob(function(blob) {
-                            file = new File([blob], 'test.jpg', { type: 'image/jpeg' });
-                        }, 'image/jpeg');
-            let data = new FormData();
-            data.append('file', file);
-            data.append('exam_id', '{{ exam.id }}')
-            let request = new XMLHttpRequest();
-            request.open('POST', '{% url 'student:capture_upload' %}');
+        // Attach listeners
+        btnStart.addEventListener("click", startStreaming);
+        btnCapture.addEventListener("click", captureSnapshot);
 
-            // upload progress event
-            request.upload.addEventListener('progress', function(e) {
-                let percent_complete = (e.loaded / e.total)*100;
+        // Start Streaming
+        function startStreaming() {
 
-                // percentage of upload completed
-                console.log(percent_complete);
-            });
+            var mediaSupport = 'mediaDevices' in navigator;
 
-            // AJAX request finished event
-            request.addEventListener('load', function(e) {
-                // HTTP status message
-                console.log(request.status);
+            if (mediaSupport && null == cameraStream) {
 
-                // request.response will hold the response from the server
-                console.log(request.response);
-            });
+                navigator.mediaDevices.getUserMedia({video: true})
+                    .then(function (mediaStream) {
 
-            // send POST request to server side script
-            request.send(data);
-        });
+                        cameraStream = mediaStream;
+
+                        stream.srcObject = mediaStream;
+
+                        stream.play();
+                    })
+                    .catch(function (err) {
+
+                        console.log("Unable to access camera: " + err);
+                    });
+            } else {
+                alert('Your browser does not support media devices.');
+                return;
+            }
+        }
+
+        function stopStreaming() {
+            if (null != cameraStream) {
+                var track = cameraStream.getTracks()[0];
+                track.stop();
+                stream.load();
+                cameraStream = null;
+            }
+        }
+
+        function dataURItoBlob(dataURI) {
+
+            var byteString = atob(dataURI.split(',')[1]);
+            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+            var buffer = new ArrayBuffer(byteString.length);
+            var data = new DataView(buffer);
+
+            for (var i = 0; i < byteString.length; i++) {
+
+                data.setUint8(i, byteString.charCodeAt(i));
+            }
+
+            return new Blob([buffer], {type: mimeString});
+        }
+
+        function captureSnapshot() {
+
+            if (null != cameraStream) {
+
+                var ctx = capture.getContext('2d');
+                var img = new Image();
+
+                ctx.drawImage(stream, 0, 0, capture.width, capture.height);
+
+                img.src = capture.toDataURL("image/png");
+                img.width = 240;
+                const snapshot_data = dataURItoBlob(capture.toDataURL("image/png"));
+                var request = new XMLHttpRequest();
+
+                request.open("POST", '{% url 'student:capture_upload' %}');
+                request.onreadystatechange = function() {
+                    if (request.readyState === XMLHttpRequest.DONE) {
+                        btnStart.remove();
+                        btnCapture.remove();
+                        capture.remove();
+                        window.location.replace('{% url 'student:attempt_exam' exam.id %}');
+                    }
+                }
+                var data = new FormData();
+                data.append('file', snapshot_data, '{{request.user.get_full_name}}_{{ exam.id }}_image.png');
+                data.append('exam_id', '{{ exam.id }}')
+                request.send(data);
+            }
+        }
+
     </script>
+    {% include 'partials/alerts.html' %}
 </div>
 </body>
 </html>

@@ -1,0 +1,17 @@
+{% for student in students %}
+<tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ student.student.get_full_name }}</td>
+    <td>
+        {% for face in faces %}
+            {% if face.student == student.student %}
+                <img width="80px" height="60px" src="/media/{{ face.face }}" alt="{{ student.student.get_full_name }}" />
+            {% endif %}
+        {% endfor %}
+
+    </td>
+    <td>{{ quest_count }}</td>
+    <td>{{ student.score }}</td>
+    <td>{{ student.score }}/{{ total_marks }}</td>
+</tr>
+{% endfor %}

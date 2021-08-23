@@ -23,7 +23,7 @@
                     <td>{{ exam.duration }}</td>
                     <td>{{ exam.examquestion_set.count }}</td>
                     <td>
-                        <a role="button" href="#" class="btn btn-primary">Attempt</a>
+                        <a role="button" href="{% url 'student:exam_prestage' exam.id %}" class="btn btn-primary">Attempt</a>
                     </td>
                 </tr>
             {% endfor %}
