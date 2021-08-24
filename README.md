@@ -16,3 +16,10 @@ ___
 1. Student testing platform created
 2. Admin side result tab added
 3. Database updated to mysql
+
+
+___
+### Changes 24-08-21
+1. Forums to question added
+2. Student API and Documentation created using redoc
+3. requirements.txt updated capable of swagger and redoc with django CORS Header
