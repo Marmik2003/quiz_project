@@ -108,17 +108,7 @@ class ExamResult(models.Model):
 
 class QuestionForum(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    forum_text = RichTextUploadingField()
-    thread_by = models.ForeignKey('users.User', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.forum_text
-
-
-class ForumReply(models.Model):
-    forum = models.ForeignKey(QuestionForum, on_delete=models.CASCADE)
+    text_title = models.TextField(null=True)
     forum_text = RichTextUploadingField()
     thread_by = models.ForeignKey('users.User', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

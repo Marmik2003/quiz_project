@@ -1,2 +1,2 @@
-<a href="#" class="nav-item nav-link active">Exams</a>
-<a href="#" class="nav-item nav-link">Forums</a>
+<a href="{% url 'student:index' %}" class="nav-item nav-link {% if 'index/' in request.path %}active{% endif %}">Exams</a>
+<a href="{% url 'student:past_exams' %}" class="nav-item nav-link {% if 'past_exams/' in request.path %}active{% endif %}">Past Exams</a>

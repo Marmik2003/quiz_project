@@ -16,14 +16,30 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
 
 from quiz_project import settings
 
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Test App API",
+        default_version='1.0.0',
+        description="Test App API, created by <a href='https://thedataboy.com/'>TheDataBoy</a>",
+    ),
+    public=False,
+    permission_classes=(permissions.IsAdminUser,),
+)
+
 urlpatterns = [
+    path('api/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+
     path('admin/', admin.site.urls),
     path('', include('users.urls')),
     path('test_admin/', include('test_admin.urls')),
     path('student/', include('student.urls')),
+    path('api/', include('student.api.urls')),
 
     path(r'ckeditor/', include('ckeditor_uploader.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(

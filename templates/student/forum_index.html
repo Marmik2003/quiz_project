@@ -1,0 +1,28 @@
+{% extends 'partials/student/base.html' %}
+{% block title %}
+    Forums
+{% endblock %}
+{% block main %}
+    <div class="container">
+        <div class="col-md-12">
+            <div class="row">
+                {% for question_forum in question_forums %}
+                    <div class="col-md-9">
+                        <div class="card mb-2">
+                            <div class="card-body p-2 p-sm-3">
+                                <div class="media forum-item">
+                                    <div class="media-body">
+                                        <h6><a href="{% url 'student:question_forum' question_forum.id %}"
+                                               data-toggle="collapse" data-target=".forum-content" class="text-body">
+                                            {{ question_forum.question_text|safe }}
+                                        </a></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

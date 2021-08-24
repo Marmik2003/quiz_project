@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
 
-from test_admin.models import ExamSet, ExamResult, ExamFaces, QuestionResponse, Question, ExamQuestion
+from test_admin.models import ExamSet, ExamResult, ExamFaces, QuestionResponse, Question, ExamQuestion, QuestionForum
 from users.models import User
 
 
@@ -15,6 +15,15 @@ def index(request):
     if request.method != 'POST':
         exams = ExamSet.objects.all().exclude(examresult__student=request.user)
         return render(request, 'student/index.html', context={
+            'exams': exams
+        })
+
+
+@login_required
+def past_exams(request):
+    if request.method != 'POST':
+        exams = ExamResult.objects.filter(student=request.user)
+        return render(request, 'student/past_exams.html', context={
             'exams': exams
         })
 
@@ -128,6 +137,60 @@ def exam_summary(request, exam_id):
         else:
             return HttpResponse('<h1>You haven\'t finished this Module yet...</h1>')
 
+
+@login_required
+def forum_index(request):
+    if request.method != 'POST':
+        question_forums = QuestionForum.objects.all(). \
+            order_by('-updated_at').values_list('question', flat=True).distinct()
+        return render(request, 'student/forum_index.html', context={'question_forums': question_forums})
+
+
+@login_required
+def question_forum(request, question_id):
+    if request.method != 'POST':
+        question = Question.objects.get(id=question_id)
+        forums = QuestionForum.objects.filter(question=question).order_by('-updated_at')
+        return render(request, 'student/question_forum.html', context={
+            'question': question,
+            'forums': forums
+        })
+    else:
+        if 'new_form' in request.POST:
+            title = request.POST['thread_title']
+            forum_text = request.POST['new_thread']
+            question = Question.objects.get(id=question_id)
+            QuestionForum.objects.create(
+                thread_by=request.user,
+                forum_text=forum_text,
+                text_title=title,
+                question=question
+            )
+        else:
+            forum_id = list(request.POST)[-1].split('_')[1]
+            title = request.POST['thread_title']
+            text = request.POST['new_thread']
+            forum = QuestionForum.objects.get(id=forum_id)
+            if forum.thread_by == request.user:
+                forum.text_title = title
+                forum.forum_text = text
+                forum.save()
+                messages.success(request, 'Fourm changed successfully!')
+            else:
+                messages.error(request, 'Authorization not permitted!')
+        return redirect('student:question_forum', question_id)
+
+
+@login_required
+def delete_forum(request, forum_id):
+    forum = QuestionForum.objects.get(id=forum_id)
+    question_id = forum.question_id
+    if forum.thread_by == request.user:
+        forum.delete()
+        messages.success(request, 'Fourm deleted successfully!')
+    else:
+        messages.error(request, 'Authorization not permitted!')
+    return redirect('student:question_forum', question_id)
 
 ##############
 # AJAX VIEWS #
